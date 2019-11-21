@@ -73,7 +73,6 @@ public class Principal extends javax.swing.JFrame {
         titulo.setText("Genius");
 
         verde.setBackground(new java.awt.Color(145, 255, 145));
-        verde.setLabel("");
         verde.setPreferredSize(new java.awt.Dimension(200, 100));
 
         tempoTexto.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -154,39 +153,39 @@ public class Principal extends javax.swing.JFrame {
 
     private void iniciar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciar
         //piscaTodos();
-        
-        Thread pisca1 = new piscaT(1);
-        Thread pisca2 = new piscaT(2);
-        Thread pisca3 = new piscaT(3);
-        Thread pisca4 = new piscaT(4);
-        
-        
+
+        Thread pisca1 = new AcaoT(1);
+        Thread pisca2 = new AcaoT(2);
+        Thread pisca3 = new AcaoT(3);
+        Thread pisca4 = new AcaoT(4);
+
         Thread t1 = new Thread() {
             public double time = 5.0;
+
             public void run() {
                 try {
-                pisca1.join();
-                pisca2.join();
-                pisca3.join();
-                pisca4.join();
-                System.out.println("Começou");
-                Timer timer = new Timer(50, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        time -= 0.051;
-                        tempo.setText(String.format("%.2fs", time));
-                    }
-                });
-                rodada.setVisible(true);
-                tempoTexto.setVisible(true);
-                tempo.setVisible(true);
-                timer.start();
-                sleep(5000);
-                timer.stop();
-                time = 0;
-                tempo.setText(String.format("%.2fs", time));
+                    pisca1.join();
+                    pisca2.join();
+                    pisca3.join();
+                    pisca4.join();
+                    System.out.println("Começou");
+                    Timer timer = new Timer(50, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            time -= 0.051;
+                            tempo.setText(String.format("%.2fs", time));
+                        }
+                    });
+                    rodada.setVisible(true);
+                    tempoTexto.setVisible(true);
+                    tempo.setVisible(true);
+                    timer.start();
+                    sleep(5000);
+                    timer.stop();
+                    time = 0;
+                    tempo.setText(String.format("%.2fs", time));
                 } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    e.printStackTrace();
                 }
                 System.out.println("Fim");
             }
@@ -194,162 +193,6 @@ public class Principal extends javax.swing.JFrame {
         t1.start();
     }//GEN-LAST:event_iniciar
 
-    private void acende(int idButton){
-        //System.out.println("\t\tAcendendo "+ idButton +" ...");
-        switch (idButton){
-            case 1:
-                verde.setBackground(new java.awt.Color(0, 255, 0));
-                break;
-            case 2:
-                vermelho.setBackground(new java.awt.Color(255, 0, 0));
-                break;
-            case 3:
-                amarelo.setBackground(new java.awt.Color(255, 255, 0));
-                break;
-            case 4:
-                azul.setBackground(new java.awt.Color(0, 0, 255));
-                break;
-            default:
-                System.out.println("Botão Invalido!");
-        }
-    }
-    
-    private void acendeTodos(){
-        acende(1);
-        acende(2);
-        acende(3);
-        acende(4);
-    }
-    
-    private void apaga(int idButton){
-        switch (idButton){
-            case 1:
-                verde.setBackground(new java.awt.Color(145, 255, 145));
-                break;
-            case 2:
-                vermelho.setBackground(new java.awt.Color(251, 130, 130));
-                break;
-            case 3:
-                amarelo.setBackground(new java.awt.Color(242, 242, 155));
-                break;
-            case 4:
-                azul.setBackground(new java.awt.Color(140, 161, 248));
-                break;
-            default:
-                System.out.println("Botão Invalido!");
-        }
-    }
-    
-    private void apagaTodos(){
-        apaga(1);
-        apaga(2);
-        apaga(3);
-        apaga(4);
-    }
-    
-     private class piscaT extends Thread {
-        
-         int idButton;
-         piscaT(int idButton) {
-            this.idButton = idButton;
-            start();
-        }
-
-        public void run() {
-            //System.out.println("\tAcendendo");
-            switch (idButton){
-                case 1:
-                    acende(1);
-                    break;
-                case 2:
-                    acende(2);
-                    break;
-                case 3:
-                    acende(3);
-                    break;
-                case 4:
-                    acende(4);
-                    break;
-                default:
-                    System.out.println("Botão Invalido!");
-            }
-            try {
-                sleep(1000);
-            } catch (InterruptedException e) {
-                    e.printStackTrace();
-            }
-            //System.out.println("\tApagando");
-            switch (idButton){
-                case 1:
-                    apaga(1);
-                    break;
-                case 2:
-                    apaga(2);
-                    break;
-                case 3:
-                    apaga(3);
-                    break;
-                case 4:
-                    apaga(4);
-                    break;
-                default:
-                    System.out.println("Botão Invalido!");
-            }
-        }
-
-  }
-    
-    private void pisca(int idButton){
-        Thread t1 = new Thread() {
-            public void run() {
-                switch (idButton){
-                    case 1:
-                        acende(1);
-                        break;
-                    case 2:
-                        acende(2);
-                        break;
-                    case 3:
-                        acende(3);
-                        break;
-                    case 4:
-                        acende(4);
-                        break;
-                    default:
-                        System.out.println("Botão Invalido!");
-                }
-                try {
-                        Thread.sleep(500);
-                } catch (InterruptedException e) {
-                        e.printStackTrace();
-                }
-                switch (idButton){
-                    case 1:
-                        apaga(1);
-                        break;
-                    case 2:
-                        apaga(2);
-                        break;
-                    case 3:
-                        apaga(3);
-                        break;
-                    case 4:
-                        apaga(4);
-                        break;
-                    default:
-                        System.out.println("Botão Invalido!");
-                }
-            }
-        };
-        t1.start();
-    }
-    
-    private void piscaTodos(){
-        pisca(1);
-        pisca(2);
-        pisca(3);
-        pisca(4);
-    }
     /**
      * @param args the command line arguments
      */
@@ -386,14 +229,14 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton amarelo;
-    private javax.swing.JButton azul;
+    protected static javax.swing.JButton amarelo;
+    protected static javax.swing.JButton azul;
     private javax.swing.JButton iniciarParar;
     private javax.swing.JLabel rodada;
     private javax.swing.JLabel tempo;
     private javax.swing.JLabel tempoTexto;
     private javax.swing.JLabel titulo;
-    private javax.swing.JButton verde;
-    private javax.swing.JButton vermelho;
+    protected static javax.swing.JButton verde;
+    protected static javax.swing.JButton vermelho;
     // End of variables declaration//GEN-END:variables
 }
