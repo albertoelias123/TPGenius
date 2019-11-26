@@ -7,24 +7,39 @@ package tpgenius;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import static java.lang.Thread.sleep;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 /**
  *
  * @author alber
  */
-public class Principal extends javax.swing.JFrame {
+public class Principal extends javax.swing.JFrame implements ActionListener {
 
     /**
      * Creates new form Principal
      */
     public Principal() {
         initComponents();
-        rodada.setVisible(false);
-        tempoTexto.setVisible(false);
-        tempo.setVisible(false);
+        verde.addActionListener(this);
+        vermelho.addActionListener(this);
+        amarelo.addActionListener(this);
+        azul.addActionListener(this);
+        iniciarParar.addActionListener(this);
+//        verde.setEnabled(false);
+//        vermelho.setEnabled(false);
+//        azul.setEnabled(false);
+//        amarelo.setEnabled(false);
+//        label.setVisible(false);
+//        tempoTexto.setVisible(false);
+//        tempo.setVisible(false);
+        init();
     }
 
     /**
@@ -39,50 +54,44 @@ public class Principal extends javax.swing.JFrame {
         vermelho = new javax.swing.JButton();
         amarelo = new javax.swing.JButton();
         azul = new javax.swing.JButton();
-        iniciarParar = new javax.swing.JButton();
         titulo = new javax.swing.JLabel();
         verde = new javax.swing.JButton();
         tempoTexto = new javax.swing.JLabel();
-        rodada = new javax.swing.JLabel();
+        label = new javax.swing.JLabel();
         tempo = new javax.swing.JLabel();
+        txtRodada = new javax.swing.JLabel();
+        iniciarParar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
 
-        vermelho.setBackground(new java.awt.Color(251, 130, 130));
+        vermelho.setBackground(new java.awt.Color(255, 0, 0));
         vermelho.setPreferredSize(new java.awt.Dimension(200, 100));
 
-        amarelo.setBackground(new java.awt.Color(242, 242, 155));
+        amarelo.setBackground(new java.awt.Color(255, 255, 0));
         amarelo.setPreferredSize(new java.awt.Dimension(200, 100));
 
-        azul.setBackground(new java.awt.Color(140, 161, 248));
+        azul.setBackground(new java.awt.Color(0, 0, 255));
         azul.setPreferredSize(new java.awt.Dimension(200, 100));
-
-        iniciarParar.setBackground(new java.awt.Color(0, 0, 0));
-        iniciarParar.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        iniciarParar.setForeground(new java.awt.Color(255, 255, 255));
-        iniciarParar.setText("Iniciar");
-        iniciarParar.setPreferredSize(new java.awt.Dimension(100, 50));
-        iniciarParar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                iniciar(evt);
-            }
-        });
 
         titulo.setFont(new java.awt.Font("Tahoma", 1, 72)); // NOI18N
         titulo.setText("Genius");
 
-        verde.setBackground(new java.awt.Color(145, 255, 145));
+        verde.setBackground(new java.awt.Color(0, 255, 0));
         verde.setPreferredSize(new java.awt.Dimension(200, 100));
 
         tempoTexto.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         tempoTexto.setText("Tempo:");
 
-        rodada.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        rodada.setText("Rodada 1");
+        label.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        label.setText("Rodada:");
 
         tempo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        tempo.setText("5s");
+
+        txtRodada.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+
+        iniciarParar.setBackground(new java.awt.Color(153, 153, 153));
+        iniciarParar.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -91,46 +100,47 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(211, 211, 211)
-                        .addComponent(titulo))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(104, 104, 104)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(verde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(vermelho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(amarelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(92, 92, 92)
-                                .addComponent(azul, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(azul, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(verde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(label)
+                                        .addGap(32, 32, 32)
+                                        .addComponent(txtRodada)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(vermelho, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(tempoTexto)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(tempo)
+                                        .addGap(50, 50, 50))))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(291, 291, 291)
-                        .addComponent(iniciarParar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(211, 211, 211)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(iniciarParar, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(titulo))))
                 .addContainerGap(104, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(tempoTexto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tempo)
-                .addGap(154, 154, 154))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(160, 160, 160)
-                    .addComponent(rodada)
-                    .addContainerGap(456, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(56, 56, 56)
                 .addComponent(titulo)
-                .addGap(30, 30, 30)
-                .addComponent(iniciarParar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(iniciarParar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tempoTexto)
-                    .addComponent(tempo))
+                    .addComponent(tempo)
+                    .addComponent(label)
+                    .addComponent(txtRodada))
                 .addGap(48, 48, 48)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(vermelho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -140,58 +150,132 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(amarelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(azul, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(106, 106, 106))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(271, 271, 271)
-                    .addComponent(rodada)
-                    .addContainerGap(407, Short.MAX_VALUE)))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void iniciar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciar
-        //piscaTodos();
+//instância um objeto da classe Random usando o construtor padrão
+    Random gerador = new Random();
+    int cont;
+    int cores[];
+    ArrayList<Integer> clique;
+    boolean erro;
+    boolean piscando;
 
-        Thread pisca1 = new AcaoT(1);
-        Thread pisca2 = new AcaoT(2);
-        Thread pisca3 = new AcaoT(3);
-        Thread pisca4 = new AcaoT(4);
+    public void init() {
+        cont = 1;
+        cores = new int[8];
+        clique = new ArrayList<>();
+        erro = false;
+        piscando = false;
+        for (int i = 0; i < 8; i++) {
+            cores[i] = gerador.nextInt(4) + 1;
+        }
+        iniciarParar.setEnabled(true);
+        iniciarParar.setText("Iniciar");
+        tempo.setText("5s");
+        txtRodada.setText("1");
+        disable();
+    }
 
-        Thread t1 = new Thread() {
-            public double time = 5.0;
+    public void disable() {
+        verde.setEnabled(false);
+        azul.setEnabled(false);
+        amarelo.setEnabled(false);
+        vermelho.setEnabled(false);
+    }
 
-            public void run() {
-                try {
-                    pisca1.join();
-                    pisca2.join();
-                    pisca3.join();
-                    pisca4.join();
-                    System.out.println("Começou");
-                    Timer timer = new Timer(50, new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            time -= 0.051;
-                            tempo.setText(String.format("%.2fs", time));
+    public void enable() {
+        verde.setEnabled(true);
+        vermelho.setEnabled(true);
+        amarelo.setEnabled(true);
+        azul.setEnabled(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        iniciarParar.setEnabled(false);
+        if (e.getSource() == iniciarParar) {
+            piscando = true;
+            Thread rodada = new Thread() {
+                public double time = 5.0;
+
+                public void run() {
+                    try {
+                        Timer timer = new Timer(50, new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                time -= 0.051;
+                                tempo.setText(String.format("%.2fs", time));
+                            }
+                        });
+                        tempo.setText("5s");
+                        txtRodada.setText(String.valueOf(cont));
+                        for (int i = 0; i < cont; i++) {
+                            new AcaoT(cores[i]).join();
                         }
-                    });
-                    rodada.setVisible(true);
-                    tempoTexto.setVisible(true);
-                    tempo.setVisible(true);
-                    timer.start();
-                    sleep(5000);
-                    timer.stop();
-                    time = 0;
-                    tempo.setText(String.format("%.2fs", time));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                        clique.clear();
+                        piscando = false;
+                        enable();
+                        timer.start();
+                        sleep(5000);
+                        timer.stop();
+                        for (int i = 0; i < cont; i++) {
+                            if (clique.isEmpty()) {
+                                erro = true;
+                            } else if (cores[i] != clique.get(i)) {
+                                erro = true;
+                            }
+                        }
+                        time = 0;
+                        tempo.setText(String.format("%.2fs", time));
+                        disable();
+                        cont++;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (erro) {
+                        init();
+                        JOptionPane.showMessageDialog(null, "Você errou!");
+                    } else if (cont == 9) {
+                        init();
+                        JOptionPane.showMessageDialog(null, "Você VENCEEEEU!");
+                    } else {
+                        iniciarParar.setEnabled(true);
+                        iniciarParar.setText("Continuar");
+                        disable();
+                    }
                 }
-                System.out.println("Fim");
+            };
+            rodada.start();
+        } else if (e.getSource() == verde && !piscando) {
+            clique.add(1);
+
+            if (cont == clique.size()) {
+                disable();
             }
-        };
-        t1.start();
-    }//GEN-LAST:event_iniciar
+
+        } else if (e.getSource() == vermelho && !piscando) {
+            clique.add(2);
+            if (cont == clique.size()) {
+                disable();
+            }
+        } else if (e.getSource() == amarelo && !piscando) {
+            clique.add(3);
+            if (cont == clique.size()) {
+                disable();
+            }
+        } else if (e.getSource() == azul && !piscando) {
+            clique.add(4);
+            if (cont == clique.size()) {
+                disable();
+            }
+        } else {
+            disable();
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -232,10 +316,11 @@ public class Principal extends javax.swing.JFrame {
     protected static javax.swing.JButton amarelo;
     protected static javax.swing.JButton azul;
     private javax.swing.JButton iniciarParar;
-    private javax.swing.JLabel rodada;
+    protected static javax.swing.JLabel label;
     private javax.swing.JLabel tempo;
     private javax.swing.JLabel tempoTexto;
     private javax.swing.JLabel titulo;
+    protected static javax.swing.JLabel txtRodada;
     protected static javax.swing.JButton verde;
     protected static javax.swing.JButton vermelho;
     // End of variables declaration//GEN-END:variables

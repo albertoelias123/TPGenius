@@ -6,10 +6,13 @@
 package tpgenius;
 
 import static java.lang.Thread.sleep;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import static tpgenius.Principal.verde;
 import static tpgenius.Principal.vermelho;
 import static tpgenius.Principal.amarelo;
 import static tpgenius.Principal.azul;
+import static tpgenius.Principal.verde;
 
 /**
  *
@@ -26,118 +29,73 @@ public class AcaoT extends Thread {
 
     public void run() {
         //System.out.println("\tAcendendo");
-        this.acende(this.idButton);
+        acende();
         try {
-            sleep(1000);
+            sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        apaga();
         //System.out.println("\tApagando");
-        this.apaga(idButton);
-    }
-
-    public void acende(int idButton) {
-        switch (idButton) {
-            case 1:
-                verde.setBackground(new java.awt.Color(0, 255, 0));
-                break;
-            case 2:
-                vermelho.setBackground(new java.awt.Color(255, 0, 0));
-                break;
-            case 3:
-                amarelo.setBackground(new java.awt.Color(255, 255, 0));
-                break;
-            case 4:
-                azul.setBackground(new java.awt.Color(0, 0, 255));
-                break;
-            default:
-                System.out.println("Botão Invalido!");
+        try {
+            sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
-    public void apaga(int idButton) {
-        switch (idButton) {
+    public void acende() {
+        switch (this.idButton) {
             case 1:
-                verde.setBackground(new java.awt.Color(145, 255, 145));
+                enableButton(verde);
                 break;
             case 2:
-                vermelho.setBackground(new java.awt.Color(251, 130, 130));
+                enableButton(vermelho);
                 break;
             case 3:
-                amarelo.setBackground(new java.awt.Color(242, 242, 155));
+                enableButton(amarelo);
                 break;
             case 4:
-                azul.setBackground(new java.awt.Color(140, 161, 248));
+                enableButton(azul);
                 break;
             default:
-                System.out.println("Botão Invalido!");
+                disableButtons();
+                JOptionPane.showMessageDialog(null, "Botão inválido");
         }
     }
 
-    public void pisca(int idButton) {
-        Thread t1 = new Thread() {
-            public void run() {
-                switch (idButton) {
-                    case 1:
-                        acende(1);
-                        break;
-                    case 2:
-                        acende(2);
-                        break;
-                    case 3:
-                        acende(3);
-                        break;
-                    case 4:
-                        acende(4);
-                        break;
-                    default:
-                        System.out.println("Botão Invalido!");
-                }
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                switch (idButton) {
-                    case 1:
-                        apaga(1);
-                        break;
-                    case 2:
-                        apaga(2);
-                        break;
-                    case 3:
-                        apaga(3);
-                        break;
-                    case 4:
-                        apaga(4);
-                        break;
-                    default:
-                        System.out.println("Botão Invalido!");
-                }
-            }
-        };
-        t1.start();
+    public void apaga() {
+        switch (this.idButton) {
+            case 1:
+                disableButton(verde);
+                break;
+            case 2:
+                disableButton(vermelho);
+                break;
+            case 3:
+                disableButton(amarelo);
+                break;
+            case 4:
+                disableButton(azul);
+                break;
+            default:
+                disableButtons();
+                JOptionPane.showMessageDialog(null, "Botão inválido");
+        }
     }
 
-    public void acendeTodos() {
-        this.acende(1);
-        this.acende(2);
-        this.acende(3);
-        this.acende(4);
+    public void disableButtons() {
+        disableButton(verde);
+        disableButton(vermelho);
+        disableButton(amarelo);
+        disableButton(azul);
     }
 
-    public void apagaTodos() {
-        apaga(1);
-        apaga(2);
-        apaga(3);
-        apaga(4);
+    public void disableButton(JButton button) {
+        button.setEnabled(false);
     }
 
-       public void piscaTodos() {
-        pisca(1);
-        pisca(2);
-        pisca(3);
-        pisca(4);
+    public void enableButton(JButton button) {
+        button.setEnabled(true);
     }
-
 }
