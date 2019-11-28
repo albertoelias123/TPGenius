@@ -8,7 +8,6 @@ package tpgenius;
 import static java.lang.Thread.sleep;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import static tpgenius.Principal.verde;
 import static tpgenius.Principal.vermelho;
 import static tpgenius.Principal.amarelo;
 import static tpgenius.Principal.azul;
@@ -44,7 +43,7 @@ public class AcaoT extends Thread {
         }
     }
 
-    public void acende() {
+    private void acende() {
         switch (this.idButton) {
             case 1:
                 enableButton(verde);
@@ -64,7 +63,7 @@ public class AcaoT extends Thread {
         }
     }
 
-    public void apaga() {
+    private void apaga() {
         switch (this.idButton) {
             case 1:
                 disableButton(verde);
@@ -84,18 +83,18 @@ public class AcaoT extends Thread {
         }
     }
 
-    public void disableButtons() {
+    private void disableButtons() {
         disableButton(verde);
         disableButton(vermelho);
         disableButton(amarelo);
         disableButton(azul);
     }
 
-    public void disableButton(JButton button) {
+    private void disableButton(JButton button) {
         button.setEnabled(false);
     }
 
-    public void enableButton(JButton button) {
+    private void enableButton(JButton button) {
         button.setEnabled(true);
     }
 }

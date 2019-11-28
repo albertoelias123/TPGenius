@@ -183,8 +183,9 @@ public class Principal extends javax.swing.JFrame implements ActionListener {
     public void disable() {
         verde.setEnabled(false);
         azul.setEnabled(false);
-        amarelo.setEnabled(false);
         vermelho.setEnabled(false);
+        amarelo.setEnabled(false);
+        //verde.setEnabled(false);
     }
 
     public void enable() {
@@ -243,9 +244,9 @@ public class Principal extends javax.swing.JFrame implements ActionListener {
                         init();
                         JOptionPane.showMessageDialog(null, "Você VENCEEEEU!");
                     } else {
+                        disable();
                         iniciarParar.setEnabled(true);
                         iniciarParar.setText("Continuar");
-                        disable();
                     }
                 }
             };
